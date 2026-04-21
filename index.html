@@ -67,6 +67,23 @@
   .footer-brand span { font-size:.65rem; text-transform:uppercase; letter-spacing:.15em; color:var(--gold); font-weight:500; }
   .footer-slide-info { font-size:.7rem; color:var(--gray); letter-spacing:.08em; }
 
+  /* GUZEL BOTTOM BRAND */
+  .guzel-bottom-brand {
+    position: fixed;
+    bottom: 58px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 90;
+    opacity: 0.20;
+    pointer-events: none;
+    white-space: nowrap;
+  }
+  .guzel-bottom-brand img {
+    height: 24px;
+    width: auto;
+    filter: brightness(0) invert(1);
+  }
+
   /* NAV */
   .nav { position:fixed; bottom:14px; right:40px; display:flex; gap:8px; z-index:200; }
   .nav-btn { width:36px; height:28px; background:transparent; border:1px solid rgba(201,168,76,.4); color:var(--gold); font-size:1rem; cursor:pointer; border-radius:4px; transition:all .2s; display:flex; align-items:center; justify-content:center; }
@@ -198,6 +215,8 @@
     .footer-brand img { height:22px; }
     .footer-brand span { font-size:.58rem; }
     .footer-slide-info { font-size:.58rem; }
+    .guzel-bottom-brand { bottom: 48px; }
+    .guzel-bottom-brand img { height: 18px; }
 
     /* Dots */
     .dots { bottom:10px; gap:5px; }
@@ -587,6 +606,11 @@
     <span>Automatización con IA</span>
   </div>
   <div class="footer-slide-info" id="slide-counter">1 / 10</div>
+</div>
+
+<!-- GUZEL BOTTOM BRAND -->
+<div class="guzel-bottom-brand">
+  <img src="guzel-logo.png" alt="Güzel">
 </div>
 
 <!-- PROGRESS BAR -->
