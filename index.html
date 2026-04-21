@@ -168,25 +168,28 @@
     .cg-icon { font-size:1.4rem; margin-bottom:6px; }
     .cg-text { font-size:.76rem; }
 
-    /* Comparison → columna única + fix scroll */
+    /* Comparison → 2 cols compactas (sin scroll) */
     #s9 {
-      justify-content: flex-start;
-      padding-top: 28px;
+      justify-content: center;
+      padding-top: 20px;
+      padding-bottom: 72px;
     }
+    #s9 h3 { font-size:.6rem; }
+    #s9 .gold-line { margin:5px auto; }
+    #s9 h2 { font-size:1rem !important; line-height:1.2; margin-bottom:0; }
     .compare {
-      grid-template-columns: 1fr !important;
-      gap: 8px;
+      grid-template-columns: 1fr 1fr !important;
+      gap: 7px;
       max-width: 100% !important;
       width: 100% !important;
+      margin-top: 10px;
     }
-    .compare-col { padding:12px 12px; border-radius:10px; }
-    .compare-col h4 { font-size:.65rem; margin-bottom:8px; }
-    .compare-price { font-size:1.4rem; }
-    .compare-detail { font-size:.65rem; margin-bottom:8px; }
-    .compare-list li { font-size:.7rem; padding:3px 0; gap:5px; }
-    #s9 h2 { font-size:1.15rem !important; margin-bottom:4px; }
-    #s9 .gold-line { margin:8px auto; }
-    #s9 > p { font-size:.72rem; margin-top:8px; }
+    .compare-col { padding:10px 8px; border-radius:8px; }
+    .compare-col h4 { font-size:.55rem; letter-spacing:.08em; margin-bottom:6px; }
+    .compare-price { font-size:1.05rem; line-height:1; margin-bottom:2px; }
+    .compare-detail { font-size:.58rem; margin-bottom:6px; line-height:1.3; }
+    .compare-list li { font-size:.6rem; padding:2px 0; gap:4px; line-height:1.3; }
+    #s9 > p { font-size:.65rem; margin-top:8px; }
 
     /* USD rows → label arriba, valor abajo */
     .usd-row {
