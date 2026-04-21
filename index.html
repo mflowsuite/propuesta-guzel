@@ -4,6 +4,9 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Sofi IA · Propuesta Guzel 2026</title>
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+<link rel="apple-touch-icon" href="apple-icon.png">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -85,6 +88,84 @@
   .click-zone-left { left:0; justify-content:flex-start; padding-left:16px; }
   .click-zone-right { right:0; justify-content:flex-end; padding-right:16px; }
   .click-zone span { font-size:2rem; color:rgba(201,168,76,.55); font-weight:300; line-height:1; }
+
+  /* ── MOBILE RESPONSIVE ── */
+  @media (max-width: 768px) {
+    .slide { padding: 32px 20px 72px; justify-content:flex-start; overflow-y:auto; overflow-x:hidden; }
+    .slide > * { position:relative; z-index:1; }
+    h1 { font-size:1.9rem !important; }
+    h2 { font-size:1.4rem !important; }
+    h3 { font-size:.72rem; }
+    p  { font-size:.88rem; }
+
+    /* Grids → 2 columnas */
+    .card-grid.cols4 { grid-template-columns:repeat(2,1fr); gap:10px; }
+    .card-grid.cols3 { grid-template-columns:repeat(2,1fr); gap:10px; }
+    .card-grid.cols2 { grid-template-columns:1fr; gap:10px; }
+    .card { padding:16px 12px; }
+    .card .card-num { font-size:1.8rem; }
+
+    /* Challenge grid → 2 cols */
+    .challenge-grid { grid-template-columns:repeat(2,1fr); gap:10px; max-width:100%; }
+    .cg-item { padding:14px 10px; }
+
+    /* Comparison → stack */
+    .compare { grid-template-columns:1fr; gap:14px; max-width:100%; }
+    .compare-col { padding:20px 16px; }
+    .compare-price { font-size:1.8rem; }
+
+    /* USD rows → stack label/value */
+    .usd-row { flex-direction:column; align-items:flex-start; gap:4px; padding:12px 14px; }
+    .usd-row .usd-val { font-size:1.1rem; }
+
+    /* Slide 7 alerts → stack */
+    #s7 > div[style*="display:flex"] { flex-direction:column; gap:16px; }
+
+    /* Channel row → tighter */
+    .channel-row { gap:16px; }
+    .channel-num { font-size:1.5rem; }
+
+    /* Proposal card */
+    .proposal-card { padding:24px 18px; }
+    .proposal-price { font-size:2.8rem; }
+
+    /* Footer */
+    .footer { padding:0 16px; height:44px; }
+    .footer-brand img { height:24px; }
+    .footer-brand span { font-size:.6rem; }
+    .footer-slide-info { font-size:.6rem; }
+
+    /* Dots */
+    .dots { bottom:12px; gap:6px; }
+    .dot { width:20px; }
+    .dot.active { width:32px; }
+
+    /* Progress */
+    .progress-bar { height:2px; }
+
+    /* Click zones más angostas */
+    .click-zone { width:10%; }
+
+    /* Slide 8 hero USD */
+    #s8 .stat-hero, #s8 > div > div:nth-child(2) { font-size:4rem !important; }
+
+    /* Gold line */
+    .gold-line { margin:10px auto; }
+
+    /* Bar wrap */
+    .bar-wrap { max-width:100%; }
+    .bar-label { font-size:.72rem; }
+  }
+
+  @media (max-width: 400px) {
+    .slide { padding:24px 14px 68px; }
+    h1 { font-size:1.5rem !important; }
+    h2 { font-size:1.2rem !important; }
+    .card-grid.cols4 { grid-template-columns:1fr 1fr; }
+    .challenge-grid { grid-template-columns:1fr; }
+    .compare { grid-template-columns:1fr; }
+    .proposal-price { font-size:2.2rem; }
+  }
 
   /* CARDS */
   .card-grid { display:grid; gap:16px; width:100%; max-width:900px; }
