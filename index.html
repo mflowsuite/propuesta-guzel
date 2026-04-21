@@ -168,17 +168,25 @@
     .cg-icon { font-size:1.4rem; margin-bottom:6px; }
     .cg-text { font-size:.76rem; }
 
-    /* Comparison → columna única */
+    /* Comparison → columna única + fix scroll */
+    #s9 {
+      justify-content: flex-start;
+      padding-top: 28px;
+    }
     .compare {
       grid-template-columns: 1fr !important;
-      gap: 12px;
+      gap: 8px;
       max-width: 100% !important;
       width: 100% !important;
     }
-    .compare-col { padding:18px 14px; }
-    .compare-price { font-size:1.7rem; }
-    .compare-detail { font-size:.7rem; margin-bottom:12px; }
-    .compare-list li { font-size:.76rem; padding:5px 0; }
+    .compare-col { padding:12px 12px; border-radius:10px; }
+    .compare-col h4 { font-size:.65rem; margin-bottom:8px; }
+    .compare-price { font-size:1.4rem; }
+    .compare-detail { font-size:.65rem; margin-bottom:8px; }
+    .compare-list li { font-size:.7rem; padding:3px 0; gap:5px; }
+    #s9 h2 { font-size:1.15rem !important; margin-bottom:4px; }
+    #s9 .gold-line { margin:8px auto; }
+    #s9 > p { font-size:.72rem; margin-top:8px; }
 
     /* USD rows → label arriba, valor abajo */
     .usd-row {
