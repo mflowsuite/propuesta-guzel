@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sofi IA · Propuesta Guzel 2026</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C97A;
+    --gold-dark: #9A7A35;
+    --black: #0A0A0A;
+    --dark: #111111;
+    --dark2: #1A1A1A;
+    --dark3: #252525;
+    --white: #FFFFFF;
+    --white-soft: #F5F0E8;
+    --gray: #888888;
+    --gray-light: #CCCCCC;
+  }
+  html, body { width:100%; height:100%; overflow:hidden; background:var(--black); font-family:'Inter',sans-serif; color:var(--white); }
+
+  .slides-wrapper { width:100%; height:100%; position:relative; overflow:hidden; }
+
+  .slide {
+    position:absolute; inset:0;
+    display:flex; flex-direction:column; justify-content:center; align-items:center;
+    padding:60px 80px 80px;
+    opacity:0; transform:translateX(60px);
+    transition:opacity .55s cubic-bezier(.4,0,.2,1), transform .55s cubic-bezier(.4,0,.2,1);
+    pointer-events:none; text-align:center;
+  }
+  .slide::before {
+    content:'';
+    position:absolute; inset:0;
+    background-image:url('images_2026-02-04_17-45-39/image_1281x831_6.png');
+    background-size:cover;
+    background-position:center;
+    opacity:0.06;
+    z-index:0;
+    pointer-events:none;
+    filter:saturate(0.4);
+  }
+  .slide > * { position:relative; z-index:1; }
+  .slide.active { opacity:1; transform:translateX(0); pointer-events:all; }
+  .slide.exit   { opacity:0; transform:translateX(-60px); }
+
+  .gold-line { width:60px; height:2px; background:var(--gold); margin:18px auto; }
+  .gold-line.wide { width:120px; }
+
+  h1 { font-family:'Playfair Display',serif; font-size:clamp(2.2rem,5vw,4rem); font-weight:700; line-height:1.15; color:var(--white); letter-spacing:-.02em; }
+  h1 span.gold, h2 span.gold { color:var(--gold); }
+  h2 { font-family:'Playfair Display',serif; font-size:clamp(1.6rem,3.5vw,2.8rem); font-weight:600; color:var(--white); letter-spacing:-.01em; }
+  h3 { font-family:'Inter',sans-serif; font-size:clamp(.85rem,1.5vw,1.05rem); font-weight:500; text-transform:uppercase; letter-spacing:.18em; color:var(--gold); margin-bottom:12px; }
+  p { font-size:clamp(.95rem,1.8vw,1.15rem); line-height:1.7; color:var(--gray-light); max-width:680px; }
+  p strong { color:var(--white); font-weight:600; }
+
+  /* FOOTER */
+  .footer { position:fixed; bottom:0; left:0; right:0; height:52px; background:rgba(10,10,10,.95); border-top:1px solid rgba(201,168,76,.2); display:flex; align-items:center; justify-content:space-between; padding:0 40px; z-index:100; }
+  .footer-brand { display:flex; align-items:center; gap:10px; }
+  .footer-brand img { height:32px; width:auto; object-fit:contain; }
+  .footer-brand span { font-size:.65rem; text-transform:uppercase; letter-spacing:.15em; color:var(--gold); font-weight:500; }
+  .footer-slide-info { font-size:.7rem; color:var(--gray); letter-spacing:.08em; }
+
+  /* NAV */
+  .nav { position:fixed; bottom:14px; right:40px; display:flex; gap:8px; z-index:200; }
+  .nav-btn { width:36px; height:28px; background:transparent; border:1px solid rgba(201,168,76,.4); color:var(--gold); font-size:1rem; cursor:pointer; border-radius:4px; transition:all .2s; display:flex; align-items:center; justify-content:center; }
+  .nav-btn:hover { background:rgba(201,168,76,.15); border-color:var(--gold); }
+
+  /* PROGRESS BAR */
+  .progress-bar { position:fixed; top:0; left:0; right:0; height:3px; background:rgba(201,168,76,.15); z-index:300; }
+  .progress-bar-fill { height:100%; background:linear-gradient(90deg,var(--gold-dark),var(--gold-light)); transition:width .45s cubic-bezier(.4,0,.2,1); }
+
+  /* DOTS */
+  .dots { position:fixed; bottom:16px; left:50%; transform:translateX(-50%); display:flex; gap:8px; z-index:200; }
+  .dot { width:28px; height:3px; border-radius:2px; background:rgba(201,168,76,.2); transition:all .35s; cursor:pointer; }
+  .dot.active { background:var(--gold); width:44px; }
+  .dot:hover { background:rgba(201,168,76,.5); }
+
+  /* CLICK ZONES */
+  .click-zone { position:fixed; top:0; bottom:52px; width:14%; z-index:50; cursor:pointer; display:flex; align-items:center; opacity:0; transition:opacity .25s; }
+  .click-zone:hover { opacity:1; }
+  .click-zone-left { left:0; justify-content:flex-start; padding-left:16px; }
+  .click-zone-right { right:0; justify-content:flex-end; padding-right:16px; }
+  .click-zone span { font-size:2rem; color:rgba(201,168,76,.55); font-weight:300; line-height:1; }
+
+  /* CARDS */
+  .card-grid { display:grid; gap:16px; width:100%; max-width:900px; }
+  .card-grid.cols2 { grid-template-columns:repeat(2,1fr); }
+  .card-grid.cols3 { grid-template-columns:repeat(3,1fr); }
+  .card-grid.cols4 { grid-template-columns:repeat(4,1fr); }
+  .card { background:var(--dark2); border:1px solid rgba(201,168,76,.15); border-radius:12px; padding:28px 24px; text-align:center; transition:border-color .3s; }
+  .card:hover { border-color:rgba(201,168,76,.4); }
+  .card .card-icon { font-size:2rem; margin-bottom:12px; }
+  .card .card-num { font-family:'Playfair Display',serif; font-size:clamp(1.8rem,4vw,2.8rem); font-weight:700; color:var(--gold); line-height:1; }
+  .card .card-label { font-size:.78rem; text-transform:uppercase; letter-spacing:.1em; color:var(--gray); margin-top:6px; }
+  .card .card-sub { font-size:.82rem; color:var(--gray-light); margin-top:8px; line-height:1.5; }
+
+  /* BARS */
+  .bar-wrap { width:100%; max-width:600px; margin:8px 0; }
+  .bar-label { display:flex; justify-content:space-between; font-size:.82rem; color:var(--gray-light); margin-bottom:6px; }
+  .bar-track { height:8px; background:var(--dark3); border-radius:4px; overflow:hidden; }
+  .bar-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,var(--gold-dark),var(--gold-light)); width:0%; transition:width 1.2s cubic-bezier(.4,0,.2,1); }
+
+  /* FEATURE LIST */
+  .feature-list { list-style:none; text-align:left; max-width:700px; width:100%; }
+  .feature-list li { display:flex; align-items:flex-start; gap:14px; padding:12px 0; border-bottom:1px solid rgba(201,168,76,.1); font-size:.95rem; color:var(--gray-light); }
+  .feature-list li:last-child { border-bottom:none; }
+  .feature-list .fi { color:var(--gold); font-size:1.1rem; flex-shrink:0; margin-top:2px; }
+  .feature-list strong { color:var(--white); }
+
+  /* USD ROWS */
+  .usd-row { display:flex; align-items:center; justify-content:space-between; padding:14px 20px; border-radius:8px; background:var(--dark2); border:1px solid rgba(201,168,76,.12); max-width:600px; width:100%; margin:4px 0; }
+  .usd-row .usd-label { font-size:.9rem; color:var(--gray-light); text-align:left; }
+  .usd-row .usd-val { font-family:'Playfair Display',serif; font-size:1.3rem; color:var(--gold); font-weight:700; }
+  .usd-row.total { background:linear-gradient(90deg,#1A1400,#111); border-color:var(--gold); margin-top:8px; }
+  .usd-row.total .usd-label { color:var(--white); font-weight:600; }
+  .usd-row.total .usd-val { font-size:1.6rem; }
+
+  /* COMPARE */
+  .compare { display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:800px; width:100%; }
+  .compare-col { background:var(--dark2); border-radius:16px; padding:32px 28px; border:1px solid rgba(255,255,255,.07); }
+  .compare-col.highlight { border-color:var(--gold); background:linear-gradient(145deg,#1A1400 0%,#111 100%); }
+  .compare-col h4 { font-size:.8rem; text-transform:uppercase; letter-spacing:.15em; color:var(--gray); margin-bottom:20px; }
+  .compare-col.highlight h4 { color:var(--gold); }
+  .compare-price { font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:var(--white); margin-bottom:4px; }
+  .compare-col.highlight .compare-price { color:var(--gold); }
+  .compare-detail { font-size:.78rem; color:var(--gray); margin-bottom:20px; }
+  .compare-list { list-style:none; text-align:left; }
+  .compare-list li { font-size:.82rem; color:var(--gray-light); padding:6px 0; border-bottom:1px solid rgba(255,255,255,.05); display:flex; align-items:center; gap:8px; }
+  .compare-list li::before { content:'✗'; color:#666; font-size:.75rem; }
+  .compare-col.highlight .compare-list li::before { content:'✓'; color:var(--gold); }
+
+  /* PROPOSAL */
+  .proposal-card { background:linear-gradient(145deg,#1A1400 0%,#0E0E0E 100%); border:2px solid var(--gold); border-radius:20px; padding:40px 48px; max-width:640px; width:100%; text-align:center; box-shadow:0 0 60px rgba(201,168,76,.12); }
+  .proposal-price { font-family:'Playfair Display',serif; font-size:clamp(2.8rem,7vw,5rem); font-weight:900; color:var(--gold); line-height:1; margin:8px 0; }
+  .proposal-period { font-size:.9rem; color:var(--gray); margin-bottom:28px; letter-spacing:.08em; text-transform:uppercase; }
+  .proposal-includes { list-style:none; text-align:left; margin-bottom:28px; }
+  .proposal-includes li { display:flex; align-items:center; gap:10px; padding:8px 0; font-size:.88rem; color:var(--gray-light); border-bottom:1px solid rgba(255,255,255,.05); }
+  .proposal-includes li::before { content:'✦'; color:var(--gold); font-size:.65rem; flex-shrink:0; }
+
+  /* CHALLENGE GRID */
+  .challenge-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:720px; width:100%; }
+  .cg-item { background:var(--dark2); border-radius:10px; padding:22px 18px; border:1px solid rgba(255,255,255,.06); text-align:center; }
+  .cg-icon { font-size:1.8rem; margin-bottom:10px; }
+  .cg-text { font-size:.82rem; color:var(--gray-light); line-height:1.5; }
+
+  /* CHANNEL */
+  .channel-row { display:flex; gap:32px; align-items:center; justify-content:center; margin-top:32px; }
+  .channel-item { display:flex; flex-direction:column; align-items:center; gap:6px; }
+  .channel-icon { font-size:2rem; }
+  .channel-num { font-family:'Playfair Display',serif; font-size:2rem; font-weight:700; color:var(--gold); }
+  .channel-lbl { font-size:.72rem; text-transform:uppercase; letter-spacing:.1em; color:var(--gray); }
+
+  /* ALERTS */
+  .alert-mock { background:var(--dark2); border:1px solid rgba(201,168,76,.2); border-radius:12px; padding:20px 24px; max-width:400px; width:100%; text-align:left; font-size:.82rem; }
+  .alert-header { display:flex; align-items:center; gap:10px; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid rgba(201,168,76,.15); }
+  .alert-dot { width:8px; height:8px; border-radius:50%; background:#E53E3E; flex-shrink:0; }
+  .alert-title { font-weight:600; color:var(--white); font-size:.85rem; }
+  .alert-meta { color:var(--gray); font-size:.75rem; margin-bottom:8px; }
+  .alert-msg { color:var(--gray-light); line-height:1.5; }
+  .report-cards { display:flex; gap:12px; margin-top:16px; }
+  .rc { background:var(--dark3); border-radius:8px; padding:14px 18px; text-align:center; flex:1; border:1px solid rgba(201,168,76,.1); }
+  .rc .rcn { font-family:'Playfair Display',serif; font-size:1.4rem; font-weight:700; color:var(--gold); }
+  .rc .rcl { font-size:.65rem; text-transform:uppercase; letter-spacing:.08em; color:var(--gray); margin-top:4px; }
+
+  /* COVER BADGE */
+  .badge { margin-top:36px; display:inline-flex; align-items:center; gap:8px; background:rgba(201,168,76,.1); border:1px solid rgba(201,168,76,.3); border-radius:40px; padding:10px 24px; font-size:.85rem; color:var(--gold-light); letter-spacing:.08em; }
+</style>
+</head>
+<body>
+
+<div class="slides-wrapper">
+
+  <!-- SLIDE 1 — COVER -->
+  <div class="slide active" id="s1" style="background:radial-gradient(ellipse at 30% 50%,#1A1400 0%,#0A0A0A 70%);">
+    <div class="gold-line wide" style="margin-top:0;"></div>
+    <h1 style="margin-top:4px;">Tu equipo de atención<br><span class="gold">que nunca duerme</span></h1>
+    <p style="font-size:1.1rem; color:var(--gray-light); font-style:italic; margin-top:20px; font-family:'Playfair Display',serif;">
+      Sofi IA — 5 meses respondiendo por Guzel, 24 horas al día
+    </p>
+    <div class="badge" style="margin-top:28px;">
+      ✦ &nbsp; WhatsApp · Instagram · 14 sucursales · Disponible 24/7
+    </div>
+  </div>
+
+  <!-- SLIDE 2 — EL DESAFÍO -->
+  <div class="slide" id="s2">
+    <h3>El desafío</h3>
+    <div class="gold-line"></div>
+    <h2>¿Cómo atender a <span class="gold">todas</span> las clientas<br>sin perder ninguna consulta?</h2>
+    <div style="height:24px;"></div>
+    <div class="challenge-grid">
+      <div class="cg-item"><div class="cg-icon">🏠</div><div class="cg-text"><strong style="color:var(--white);">14 sucursales</strong><br>con horarios y servicios distintos</div></div>
+      <div class="cg-item"><div class="cg-icon">📱</div><div class="cg-text"><strong style="color:var(--white);">2 canales</strong><br>WhatsApp e Instagram en simultáneo</div></div>
+      <div class="cg-item"><div class="cg-icon">🌙</div><div class="cg-text"><strong style="color:var(--white);">Fuera de horario</strong><br>consultas que antes quedaban sin respuesta</div></div>
+      <div class="cg-item"><div class="cg-icon">⚡</div><div class="cg-text"><strong style="color:var(--white);">Respuesta inmediata</strong><br>la clienta espera contestación al instante</div></div>
+      <div class="cg-item"><div class="cg-icon">📋</div><div class="cg-text"><strong style="color:var(--white);">Información precisa</strong><br>precios, servicios y políticas actualizadas</div></div>
+      <div class="cg-item"><div class="cg-icon">🔔</div><div class="cg-text"><strong style="color:var(--white);">Reclamos urgentes</strong><br>que requieren atención humana inmediata</div></div>
+    </div>
+  </div>
+
+  <!-- SLIDE 3 — LA SOLUCIÓN -->
+  <div class="slide" id="s3">
+    <h3>La solución</h3>
+    <div class="gold-line"></div>
+    <h2>Conocé a <span class="gold">Sofi</span></h2>
+    <p style="margin-top:12px; margin-bottom:28px;">
+      Sofi es la asistente virtual de Guzel. Responde con el tono, los valores y la calidez de la marca — como si fuera parte del equipo. Nunca inventa información; siempre consulta datos reales en tiempo real.
+    </p>
+    <ul class="feature-list" style="max-width:620px;">
+      <li><span class="fi">✦</span><span>Responde en segundos, <strong>las 24 horas del día, los 7 días de la semana</strong></span></li>
+      <li><span class="fi">✦</span><span>Maneja horarios, servicios, precios, combos y políticas de cada sucursal</span></li>
+      <li><span class="fi">✦</span><span>Voz cálida y femenina alineada al estilo de comunicación de Guzel</span></li>
+      <li><span class="fi">✦</span><span><strong>Derivación humana inteligente:</strong> escala a una persona cuando hace falta</span></li>
+      <li><span class="fi">✦</span><span>Corre simultáneamente en <strong>WhatsApp e Instagram</strong> sin límite de conversaciones</span></li>
+    </ul>
+  </div>
+
+  <!-- SLIDE 4 — RESULTADOS REALES -->
+  <div class="slide" id="s4">
+    <h3>5 meses de funcionamiento real</h3>
+    <div class="gold-line"></div>
+    <h2>Números que <span class="gold">hablan solos</span></h2>
+    <div style="height:20px;"></div>
+    <div class="card-grid cols4" style="max-width:860px;">
+      <div class="card">
+        <div class="card-icon">💬</div>
+        <div class="card-num"><span class="counter" data-target="5698">0</span></div>
+        <div class="card-label">Conversaciones atendidas</div>
+        <div class="card-sub">Nov 2025 – Abr 2026</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">👩</div>
+        <div class="card-num"><span class="counter" data-target="2246">0</span></div>
+        <div class="card-label">Clientes únicas</div>
+        <div class="card-sub">Contactos distintos atendidos</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">📅</div>
+        <div class="card-num"><span class="counter" data-target="37">0</span></div>
+        <div class="card-label">Conversaciones por día</div>
+        <div class="card-sub">Promedio diario sostenido</div>
+      </div>
+      <div class="card">
+        <div class="card-icon">⭐</div>
+        <div class="card-num"><span class="counter" data-target="99">0</span>%</div>
+        <div class="card-label">Resueltas sin reclamo</div>
+        <div class="card-sub">Solo 47 reclamos en 5 meses</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5 — COBERTURA 24/7 -->
+  <div class="slide" id="s5">
+    <h3>Cobertura fuera de horario</h3>
+    <div class="gold-line"></div>
+    <h2>Más de <span class="gold">2.000 consultas</span><br>que antes nadie respondía</h2>
+    <p style="margin-top:12px; margin-bottom:28px; text-align:center; max-width:580px;">
+      El <strong>36% de las conversaciones</strong> ocurre fuera del horario comercial o en fines de semana.
+      Esas clientas antes no recibían respuesta — o se iban a la competencia.
+    </p>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:720px; width:100%;">
+      <div class="card" style="border-color:rgba(201,168,76,.3);">
+        <div style="font-size:2rem; margin-bottom:10px;">🌙</div>
+        <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:var(--gold); line-height:1;" class="counter" data-target="1031">0</div>
+        <div style="font-size:.75rem; text-transform:uppercase; letter-spacing:.1em; color:var(--gray); margin-top:10px;">Fuera de horario</div>
+        <div style="font-size:.8rem; color:var(--gray-light); margin-top:4px;">Antes 8am · después 7pm</div>
+      </div>
+      <div class="card" style="border-color:rgba(201,168,76,.3);">
+        <div style="font-size:2rem; margin-bottom:10px;">🗓️</div>
+        <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:var(--gold); line-height:1;" class="counter" data-target="1030">0</div>
+        <div style="font-size:.75rem; text-transform:uppercase; letter-spacing:.1em; color:var(--gray); margin-top:10px;">Fines de semana</div>
+        <div style="font-size:.8rem; color:var(--gray-light); margin-top:4px;">Sábados, domingos y feriados</div>
+      </div>
+      <div class="card" style="border-color:var(--gold); background:linear-gradient(145deg,#1A1400,#111);">
+        <div style="font-size:2rem; margin-bottom:10px;">📊</div>
+        <div style="font-family:'Playfair Display',serif; font-size:2.4rem; font-weight:700; color:var(--gold); line-height:1;">36%</div>
+        <div style="font-size:.75rem; text-transform:uppercase; letter-spacing:.1em; color:var(--gray); margin-top:10px;">Del total de consultas</div>
+        <div style="font-size:.8rem; color:var(--gray-light); margin-top:4px;">Sin respuesta antes de Sofi</div>
+      </div>
+    </div>
+    <p style="margin-top:24px; font-size:.85rem; color:var(--gold);">
+      ✦ Sofi respondió el 100% de esas consultas, en segundos, sin costo extra
+    </p>
+  </div>
+
+  <!-- SLIDE 6 — DOS CANALES -->
+  <div class="slide" id="s6">
+    <h3>Cobertura multicanal</h3>
+    <div class="gold-line"></div>
+    <h2>Un solo agente,<br><span class="gold">dos canales simultáneos</span></h2>
+    <div class="channel-row">
+      <div class="channel-item">
+        <div class="channel-icon">💬</div>
+        <div class="channel-num"><span class="counter" data-target="3824">0</span></div>
+        <div class="channel-lbl">Conversaciones<br>WhatsApp</div>
+      </div>
+      <div style="width:1px; height:80px; background:rgba(201,168,76,.2);"></div>
+      <div class="channel-item">
+        <div class="channel-icon">📸</div>
+        <div class="channel-num"><span class="counter" data-target="1874">0</span></div>
+        <div class="channel-lbl">Conversaciones<br>Instagram</div>
+      </div>
+    </div>
+    <div style="height:28px;"></div>
+    <p style="max-width:560px; text-align:center;">
+      Sofi opera en <strong>WhatsApp e Instagram al mismo tiempo</strong>, con la misma calidad de respuesta y sin importar cuántos chats lleguen a la vez. No hay colas de espera ni mensajes sin leer.
+    </p>
+  </div>
+
+  <!-- SLIDE 7 — ALERTAS Y REPORTES -->
+  <div class="slide" id="s7">
+    <h3>Inteligencia adicional incluida</h3>
+    <div class="gold-line"></div>
+    <h2>Alertas en tiempo real<br>+ <span class="gold">Reportes semanales</span></h2>
+    <div style="display:flex; gap:28px; margin-top:28px; align-items:flex-start;">
+      <div style="flex:1; text-align:left;">
+        <p style="font-size:.78rem; text-transform:uppercase; letter-spacing:.15em; color:var(--gold); margin-bottom:12px;">🔔 Alerta de Reclamos</p>
+        <div class="alert-mock">
+          <div class="alert-header">
+            <div class="alert-dot"></div>
+            <div class="alert-title">⚠️ RECLAMO DETECTADO — Guzel</div>
+          </div>
+          <div class="alert-meta">Cliente: Laura M. · WhatsApp · Hace 2 minutos</div>
+          <div class="alert-msg">"Fui al local de Palermo y me atendieron muy mal, quiero hablar con alguien..."</div>
+        </div>
+        <p style="font-size:.78rem; color:var(--gray); margin-top:10px;">Recibís el mail en segundos para actuar antes de que escale.</p>
+      </div>
+      <div style="flex:1; text-align:left;">
+        <p style="font-size:.78rem; text-transform:uppercase; letter-spacing:.15em; color:var(--gold); margin-bottom:12px;">📊 Reporte Semanal — Todos los lunes</p>
+        <div class="alert-mock" style="background:var(--dark3);">
+          <div class="alert-header" style="border-color:rgba(201,168,76,.2);">
+            <div style="font-size:1rem;">📈</div>
+            <div class="alert-title">Resumen semanal · Sofi IA · Guzel</div>
+          </div>
+          <div class="report-cards">
+            <div class="rc"><div class="rcn">274</div><div class="rcl">Consultas</div></div>
+            <div class="rc"><div class="rcn">14hs</div><div class="rcl">Ahorradas</div></div>
+            <div class="rc"><div class="rcn">96%</div><div class="rcl">Positivas</div></div>
+          </div>
+        </div>
+        <p style="font-size:.78rem; color:var(--gray); margin-top:10px;">Métricas de rendimiento, satisfacción y ROI cada lunes a las 9am.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8 — INVERSIÓN YA REALIZADA -->
+  <div class="slide" id="s8">
+    <h3>Inversión ya realizada</h3>
+    <div class="gold-line"></div>
+    <h2>Todo esto ya está <span class="gold">construido y funcionando</span></h2>
+    <div style="margin-top:28px; text-align:center;">
+      <div style="font-size:.78rem; color:var(--gray); text-transform:uppercase; letter-spacing:.2em; margin-bottom:12px;">Valor total de la automatización entregada</div>
+      <div style="font-family:'Playfair Display',serif; font-size:clamp(5rem,14vw,8rem); font-weight:900; color:var(--gold); line-height:1; letter-spacing:-.03em;">USD 600</div>
+      <div style="width:80px; height:2px; background:var(--gold); margin:20px auto;"></div>
+      <p style="max-width:520px; text-align:center; font-size:.92rem; color:var(--gray-light); line-height:1.8;">
+        Dos agentes conversacionales (WhatsApp + Instagram) · Sistema de alertas de reclamos en tiempo real · Reporte semanal automático
+      </p>
+      <p style="margin-top:24px; font-size:1rem; color:var(--gold); font-style:italic; font-family:'Playfair Display',serif;">
+        "No cobramos la construcción. La tecnología ya es de Guzel."
+      </p>
+    </div>
+  </div>
+
+  <!-- SLIDE 9 — COMPARACIÓN -->
+  <div class="slide" id="s9">
+    <h3>El costo de la alternativa</h3>
+    <div class="gold-line"></div>
+    <h2>¿Cuánto costaría hacerlo<br><span class="gold">con personas?</span></h2>
+    <div style="height:16px;"></div>
+    <div class="compare">
+      <div class="compare-col">
+        <h4>👩 Equipo humano equivalente</h4>
+        <div class="compare-price">$1.200.000+</div>
+        <div class="compare-detail">ARS por mes · estimado 2026</div>
+        <ul class="compare-list">
+          <li>Solo horario comercial</li>
+          <li>Solo un canal a la vez</li>
+          <li>Errores e inconsistencias posibles</li>
+          <li>Vacaciones, licencias, rotación</li>
+          <li>Sin métricas ni reportes automáticos</li>
+          <li>Respuesta en minutos u horas</li>
+        </ul>
+      </div>
+      <div class="compare-col highlight">
+        <h4>⚡ Sofi IA — Abono mensual</h4>
+        <div class="compare-price">$200.000</div>
+        <div class="compare-detail">ARS por mes · todo incluido</div>
+        <ul class="compare-list">
+          <li>Disponible 24/7, incluso feriados</li>
+          <li>WhatsApp + Instagram simultáneo</li>
+          <li>Información siempre precisa y actualizada</li>
+          <li>Sin ausencias ni rotación</li>
+          <li>Reportes semanales + alertas en tiempo real</li>
+          <li>Respuesta en segundos</li>
+        </ul>
+      </div>
+    </div>
+    <p style="margin-top:16px; font-size:.82rem; color:var(--gold);">
+      ✦ Sofi representa el 16% del costo de una solución humana equivalente
+    </p>
+  </div>
+
+  <!-- SLIDE 10 — LA PROPUESTA -->
+  <div class="slide" id="s10">
+    <h3>La propuesta</h3>
+    <div class="gold-line"></div>
+    <div class="proposal-card">
+      <h2 style="font-size:1.1rem; color:var(--gray-light); font-family:'Inter',sans-serif; font-weight:400; margin-bottom:8px;">Abono de mantenimiento mensual</h2>
+      <div class="proposal-price">$200.000</div>
+      <div class="proposal-period">ARS · por mes · sin costo de alta</div>
+      <ul class="proposal-includes">
+        <li>Supervisión periódica de los agentes de IA</li>
+        <li>Corrección de fallos y bugs</li>
+        <li>Ajustes menores: horarios, sucursales, servicios, precios</li>
+        <li>Monitoreo de calidad de respuestas</li>
+        <li>Soporte ante cambios en WhatsApp e Instagram</li>
+      </ul>
+      <div style="font-size:.8rem; color:var(--gray); margin-bottom:24px; font-style:italic; line-height:1.6;">
+        La tecnología valorada en USD 600 ya está construida.<br>
+        Este abono es solo para mantenerla funcionando perfecto.
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; gap:10px;">
+        <img src="logo.png" style="height:30px; width:auto;">
+        <strong style="color:var(--gold); font-size:.9rem; letter-spacing:.05em;">MFlowsuite</strong>
+      </div>
+    </div>
+  </div>
+
+</div><!-- /slides-wrapper -->
+
+<!-- FOOTER -->
+<div class="footer">
+  <div class="footer-brand">
+    <img src="logo.png" alt="MFlowSuite">
+    <span>Automatización con IA</span>
+  </div>
+  <div class="footer-slide-info" id="slide-counter">1 / 10</div>
+</div>
+
+<!-- PROGRESS BAR -->
+<div class="progress-bar"><div class="progress-bar-fill" id="progress-fill" style="width:10%;"></div></div>
+
+<!-- DOTS -->
+<div class="dots" id="dots"></div>
+
+<!-- CLICK ZONES -->
+<div class="click-zone click-zone-left" onclick="changeSlide(-1)"><span>&#8249;</span></div>
+<div class="click-zone click-zone-right" onclick="changeSlide(1)"><span>&#8250;</span></div>
+
+<script>
+const slides = document.querySelectorAll('.slide');
+const dotsWrap = document.getElementById('dots');
+const counter = document.getElementById('slide-counter');
+let current = 0;
+const animated = new Set();
+
+slides.forEach((_, i) => {
+  const d = document.createElement('div');
+  d.className = 'dot' + (i === 0 ? ' active' : '');
+  d.onclick = () => goTo(i);
+  dotsWrap.appendChild(d);
+});
+
+const progressFill = document.getElementById('progress-fill');
+
+function updateUI() {
+  document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  counter.textContent = (current + 1) + ' / ' + slides.length;
+  progressFill.style.width = ((current + 1) / slides.length * 100) + '%';
+}
+
+function goTo(n) {
+  if (n < 0 || n >= slides.length || n === current) return;
+  slides[current].classList.remove('active');
+  slides[current].classList.add('exit');
+  const prev = current;
+  current = n;
+  slides[current].classList.add('active');
+  setTimeout(() => slides[prev].classList.remove('exit'), 600);
+  updateUI();
+  animateSlide(current);
+}
+
+function changeSlide(dir) { goTo(current + dir); }
+
+function animateSlide(idx) {
+  if (animated.has(idx)) return;
+  animated.add(idx);
+  const slide = slides[idx];
+
+  slide.querySelectorAll('.counter').forEach(el => {
+    const target = parseInt(el.dataset.target);
+    const start = performance.now();
+    const duration = 1200;
+    (function step(now) {
+      const p = Math.min((now - start) / duration, 1);
+      const e = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(e * target).toLocaleString('es-AR');
+      if (p < 1) requestAnimationFrame(step);
+    })(start);
+  });
+
+  slide.querySelectorAll('.bar-fill').forEach(el => {
+    const w = el.dataset.width;
+    setTimeout(() => el.style.width = w + '%', 100);
+  });
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === 'ArrowDown') changeSlide(1);
+  if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   changeSlide(-1);
+});
+
+// Swipe support
+let touchStartX = 0;
+document.addEventListener('touchstart', e => { touchStartX = e.touches[0].clientX; }, { passive: true });
+document.addEventListener('touchend', e => {
+  const dx = e.changedTouches[0].clientX - touchStartX;
+  if (Math.abs(dx) > 50) changeSlide(dx < 0 ? 1 : -1);
+}, { passive: true });
+
+animateSlide(0);
+</script>
+</body>
+</html>
