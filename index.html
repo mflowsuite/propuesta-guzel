@@ -41,10 +41,10 @@
     background-image:url('images_2026-02-04_17-45-39/image_1281x831_6.png');
     background-size:cover;
     background-position:center;
-    opacity:0.06;
+    opacity:0.14;
     z-index:0;
     pointer-events:none;
-    filter:saturate(0.4);
+    filter:saturate(0.5);
   }
   .slide > * { position:relative; z-index:1; }
   .slide.active { opacity:1; transform:translateX(0); pointer-events:all; }
@@ -91,80 +91,125 @@
 
   /* ── MOBILE RESPONSIVE ── */
   @media (max-width: 768px) {
-    .slide { padding: 32px 20px 72px; justify-content:flex-start; overflow-y:auto; overflow-x:hidden; }
-    .slide > * { position:relative; z-index:1; }
-    h1 { font-size:1.9rem !important; }
-    h2 { font-size:1.4rem !important; }
-    h3 { font-size:.72rem; }
-    p  { font-size:.88rem; }
+    /* Slide base */
+    .slide {
+      padding: 28px 18px 68px;
+      justify-content: center;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
 
-    /* Grids → 2 columnas */
-    .card-grid.cols4 { grid-template-columns:repeat(2,1fr); gap:10px; }
-    .card-grid.cols3 { grid-template-columns:repeat(2,1fr); gap:10px; }
-    .card-grid.cols2 { grid-template-columns:1fr; gap:10px; }
-    .card { padding:16px 12px; }
-    .card .card-num { font-size:1.8rem; }
+    /* Tipografía */
+    h1 { font-size:1.75rem !important; line-height:1.2; }
+    h2 { font-size:1.3rem !important; }
+    h3 { font-size:.7rem; letter-spacing:.14em; }
+    p  { font-size:.85rem; max-width:100% !important; }
+
+    /* ── Grids: forzar 2 cols y ancho completo ── */
+    .card-grid {
+      grid-template-columns: repeat(2,1fr) !important;
+      gap: 10px !important;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+    .card { padding:14px 10px; }
+    .card .card-icon { font-size:1.5rem; margin-bottom:6px; }
+    .card .card-num  { font-size:1.6rem !important; }
+    .card .card-label{ font-size:.65rem; }
+    .card .card-sub  { font-size:.7rem; }
 
     /* Challenge grid → 2 cols */
-    .challenge-grid { grid-template-columns:repeat(2,1fr); gap:10px; max-width:100%; }
-    .cg-item { padding:14px 10px; }
+    .challenge-grid {
+      grid-template-columns: repeat(2,1fr) !important;
+      gap: 10px;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+    .cg-item { padding:12px 8px; }
+    .cg-icon { font-size:1.4rem; margin-bottom:6px; }
+    .cg-text { font-size:.76rem; }
 
-    /* Comparison → stack */
-    .compare { grid-template-columns:1fr; gap:14px; max-width:100%; }
-    .compare-col { padding:20px 16px; }
-    .compare-price { font-size:1.8rem; }
+    /* Comparison → columna única */
+    .compare {
+      grid-template-columns: 1fr !important;
+      gap: 12px;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+    .compare-col { padding:18px 14px; }
+    .compare-price { font-size:1.7rem; }
+    .compare-detail { font-size:.7rem; margin-bottom:12px; }
+    .compare-list li { font-size:.76rem; padding:5px 0; }
 
-    /* USD rows → stack label/value */
-    .usd-row { flex-direction:column; align-items:flex-start; gap:4px; padding:12px 14px; }
-    .usd-row .usd-val { font-size:1.1rem; }
+    /* USD rows → label arriba, valor abajo */
+    .usd-row {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+      padding: 10px 12px;
+      max-width: 100% !important;
+      width: 100% !important;
+    }
+    .usd-row .usd-label { font-size:.78rem; }
+    .usd-row .usd-val   { font-size:1rem; }
+    .usd-row.total .usd-val { font-size:1.2rem; }
 
-    /* Slide 7 alerts → stack */
-    #s7 > div[style*="display:flex"] { flex-direction:column; gap:16px; }
+    /* Slide 7: alerts → columna */
+    #s7 .alerts-flex { flex-direction:column !important; gap:14px; }
 
-    /* Channel row → tighter */
-    .channel-row { gap:16px; }
-    .channel-num { font-size:1.5rem; }
+    /* Channel */
+    .channel-row { gap:14px; margin-top:20px; }
+    .channel-num  { font-size:1.6rem; }
+    .channel-lbl  { font-size:.65rem; }
 
-    /* Proposal card */
-    .proposal-card { padding:24px 18px; }
-    .proposal-price { font-size:2.8rem; }
+    /* Proposal */
+    .proposal-card { padding:20px 16px; }
+    .proposal-price { font-size:2.4rem; }
+    .proposal-period { font-size:.75rem; margin-bottom:18px; }
+    .proposal-includes li { font-size:.8rem; padding:6px 0; }
+
+    /* Badge cover */
+    .badge { font-size:.72rem; padding:8px 16px; margin-top:20px; }
 
     /* Footer */
-    .footer { padding:0 16px; height:44px; }
-    .footer-brand img { height:24px; }
-    .footer-brand span { font-size:.6rem; }
-    .footer-slide-info { font-size:.6rem; }
+    .footer { padding:0 14px; height:42px; }
+    .footer-brand img { height:22px; }
+    .footer-brand span { font-size:.58rem; }
+    .footer-slide-info { font-size:.58rem; }
 
     /* Dots */
-    .dots { bottom:12px; gap:6px; }
-    .dot { width:20px; }
-    .dot.active { width:32px; }
+    .dots { bottom:10px; gap:5px; }
+    .dot { width:18px; }
+    .dot.active { width:28px; }
 
     /* Progress */
     .progress-bar { height:2px; }
 
-    /* Click zones más angostas */
-    .click-zone { width:10%; }
-
-    /* Slide 8 hero USD */
-    #s8 .stat-hero, #s8 > div > div:nth-child(2) { font-size:4rem !important; }
+    /* Click zones */
+    .click-zone { width:12%; }
 
     /* Gold line */
     .gold-line { margin:10px auto; }
 
-    /* Bar wrap */
-    .bar-wrap { max-width:100%; }
-    .bar-label { font-size:.72rem; }
+    /* Bars */
+    .bar-wrap { max-width:100% !important; }
+    .bar-label { font-size:.7rem; flex-wrap:wrap; gap:2px; }
+
+    /* Feature list */
+    .feature-list li { font-size:.82rem; gap:10px; padding:10px 0; }
+
+    /* Alert mock */
+    .alert-mock { max-width:100%; }
   }
 
   @media (max-width: 400px) {
-    .slide { padding:24px 14px 68px; }
+    .slide { padding:20px 14px 64px; }
     h1 { font-size:1.5rem !important; }
-    h2 { font-size:1.2rem !important; }
-    .card-grid.cols4 { grid-template-columns:1fr 1fr; }
-    .challenge-grid { grid-template-columns:1fr; }
-    .compare { grid-template-columns:1fr; }
-    .proposal-price { font-size:2.2rem; }
+    h2 { font-size:1.15rem !important; }
+    .card-grid { gap:8px !important; }
+    .challenge-grid { gap:8px; }
+    .proposal-price { font-size:2rem; }
+    .compare-price { font-size:1.5rem; }
   }
 
   /* CARDS */
@@ -397,7 +442,7 @@
     <h3>Inteligencia adicional incluida</h3>
     <div class="gold-line"></div>
     <h2>Alertas en tiempo real<br>+ <span class="gold">Reportes semanales</span></h2>
-    <div style="display:flex; gap:28px; margin-top:28px; align-items:flex-start;">
+    <div class="alerts-flex" style="display:flex; gap:28px; margin-top:28px; align-items:flex-start; width:100%; max-width:860px;">
       <div style="flex:1; text-align:left;">
         <p style="font-size:.78rem; text-transform:uppercase; letter-spacing:.15em; color:var(--gold); margin-bottom:12px;">🔔 Alerta de Reclamos</p>
         <div class="alert-mock">
