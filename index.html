@@ -513,7 +513,7 @@
       }
       .quote-row {
         display: flex;
-        gap: 14px;
+        gap: 10px;
         margin-top: 20px;
         flex-wrap: wrap;
         justify-content: center;
@@ -529,6 +529,14 @@
         font-size: .78rem;
         color: var(--gold-light);
         font-style: italic;
+        text-align: center;
+      }
+      @media (max-width: 768px) {
+        .hero-conversion-card { padding: 22px 18px 20px; }
+        .hero-big-num { font-size: 4rem; }
+        .quote-row { flex-direction: column; align-items: center; gap: 8px; margin-top: 14px; }
+        .quote-chip { font-size: .72rem; padding: 5px 12px; }
+        .s5b-bottom-row { gap: 10px; margin-top: 12px; }
       }
       .s5b-bottom-row {
         display: grid;
@@ -551,8 +559,8 @@
       <div class="hero-label">personas le dijeron a Sofi<br>que iban a la sucursal</div>
       <div class="quote-row">
         <div class="quote-chip">"Mañana me paso por Malabia 💘"</div>
-        <div class="quote-chip">"Genial gracias. Voy a ir a la sucursal de Lavalle"</div>
-        <div class="quote-chip">"Paso directo por el local entonces"</div>
+        <div class="quote-chip">"Voy a ir a la sucursal de Lavalle"</div>
+        <div class="quote-chip">"Paso directo por el local"</div>
       </div>
     </div>
 
